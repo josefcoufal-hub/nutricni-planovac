@@ -55,7 +55,7 @@ Bezplatná nabídka SQL: lze ji uplatnit u omezeného počtu databází na před
 3. **Hned si heslo změňte:** Nastavení → Účet a zabezpečení → Změnit heslo.
 4. Příští nasazení spouštějte s `NO_BOOTSTRAP=1 ./infra/deploy.sh rg-planovac`, aby heslo prvního správce nezůstávalo v konfiguraci. (První správce se vytváří jen tehdy, když v databázi nejsou žádní uživatelé, takže jeho ponechání nehrozí přepsáním, jde o úklid.)
 
-**První otevření po delší nečinnosti trvá až minutu.** Probouzí se kontejnery i databáze (po 15 minutách nečinnosti se pozastaví). Přihlašovací obrazovka to uživateli vysvětlí. Chcete-li zkrátit čekání, nastavte `webMinReplicas=1` (za cenu pevných nákladů).
+**První otevření po delší nečinnosti trvá až minutu.** Probouzí se kontejnery i databáze (po 60 minutách nečinnosti se pozastaví; při vypnuté bezplatné nabídce po 15). Přihlašovací obrazovka to uživateli vysvětlí. Chcete-li zkrátit čekání, nastavte `webMinReplicas=1` (za cenu pevných nákladů).
 
 ## 4. Správa uživatelů
 

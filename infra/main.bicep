@@ -139,7 +139,8 @@ resource db 'Microsoft.Sql/servers/databases@2025-01-01' = {
   properties: {
     collation: 'SQL_Latin1_General_CP1_CI_AS'
     maxSizeBytes: 34359738368 // 32 GB
-    autoPauseDelay: 15
+    // bezplatná nabídka s AutoPause dovoluje jen výchozí prodlevu pauzy (60 min); Azure jinak odmítne (ProvisioningDisabled)
+    autoPauseDelay: sqlFreeOffer ? null : 15
     minCapacity: json('0.5')
     requestedBackupStorageRedundancy: 'Local'
     zoneRedundant: false
