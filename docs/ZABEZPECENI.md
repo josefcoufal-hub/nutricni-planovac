@@ -52,7 +52,7 @@ Tento dokument popisuje, co aplikace dělá pro ochranu dat, kde jsou její meze
 ## 4. GDPR – praktická doporučení (nejde o právní radu)
 
 - Údaje o zdraví jsou zvláštní kategorie (čl. 9 GDPR). Ujasněte si **právní základ** a roli: terapeut je zpravidla správce, Microsoft zpracovatel (zpracovatelská smlouva je součástí podmínek Microsoftu – ověřte). Zvažte posouzení vlivu (DPIA) a záznamy o činnostech zpracování.
-- **Oblast dat:** výchozí `westeurope` (Nizozemsko). Data neopouštějí EU, pokud sami nenastavíte jinak.
+- **Oblast dat:** výchozí `germanywestcentral` (Frankfurt). Data neopouštějí EU, pokud sami nenastavíte jinak.
 - **Minimalizace:** doporučte klienty zapisovat zkráceně (jméno + iniciála, číslo) a nezapisovat rodná čísla ani kontakty. Aplikace na to upozorňuje v Nastavení.
 - **Výmaz a přenositelnost:** Nastavení → *Stáhnout zálohu* (export JSON), *Smazat všechna data* (výmaz dat uživatele). Smazání jednoho klienta řeší jeho karta.
 - **Písma Google Fonts** odesílají IP adresu návštěvníka Googlu – pro přísnější přístup je lokálně hostujte (viz zpřísnění).
