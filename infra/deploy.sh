@@ -5,7 +5,7 @@
 set -euo pipefail
 
 RG="${1:?Použití: $0 <skupina-prostředků> [oblast]}"
-LOCATION="${2:-westeurope}"
+LOCATION="${2:-germanywestcentral}"   # westeurope nepřijímá nové zákazníky u některých (zkušebních) předplatných
 VERSION="${VERSION:-$(date +%Y%m%d-%H%M%S)}"
 SECRETS=".secrets.env"
 cd "$(dirname "$0")/.."

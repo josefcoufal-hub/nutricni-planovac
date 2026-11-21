@@ -14,7 +14,7 @@ Postup je psaný pro člověka, který Azure zná jen zběžně. Celé nasazení
 ## 2. Nasazení jedním příkazem
 
 ```bash
-./infra/deploy.sh rg-planovac westeurope
+./infra/deploy.sh rg-planovac germanywestcentral
 ```
 
 Skript postupně:
@@ -41,6 +41,10 @@ az deployment group what-if -g rg-planovac -f infra/main.bicep \
 | Container Registry (Basic) | obrazy aplikací | jediná pevná měsíční položka (řádově 5 USD) |
 | Log Analytics | logy | omezeno na 0,5 GB/den, uchování 30 dní |
 | Spravovaná identita | stahování obrazů z registru | zdarma |
+
+### Výběr oblasti (ověřeno při prvním nasazení)
+
+Výchozí oblast je `germanywestcentral` (Frankfurt, data zůstávají v EU). U zkušebního předplatného **`westeurope` selhalo** s chybou `RequestDisallowedByAzure ... locationineligible` (oblast nepřijímá nové zákazníky). Jiná oblast se zadává druhým parametrem skriptu; před nasazením ji lze ověřit příkazem `what-if` s `-p location=<oblast>`. Při prvním nasazení prošly `germanywestcentral` i `swedencentral`.
 
 ### Odhad nákladů
 
