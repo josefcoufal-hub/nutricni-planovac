@@ -1,0 +1,14 @@
+.git
+**/node_modules
+frontend/dist
+frontend/test
+api/out
+api/out-test
+api/target
+web/test
+web/public
+e2e
+docs
+infra
+*.log
+.secrets.env

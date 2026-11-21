@@ -1,0 +1,43 @@
+# Místní běh celé aplikace se skutečnou databází (PostgreSQL) – pro vyzkoušení před nasazením do Azure.
+#   docker compose up --build        pak otevřete http://localhost:8080
+# Přihlášení: uživatel "admin", heslo "admin-heslo-12345" (jen pro místní zkoušení!)
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: planovac
+      POSTGRES_USER: planovac
+      POSTGRES_PASSWORD: lokalni-heslo
+    volumes: [dbdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U planovac -d planovac"]
+      interval: 3s
+      retries: 20
+
+  api:
+    build: ./api
+    depends_on:
+      db: { condition: service_healthy }
+    environment:
+      APP_ENV: development
+      STORAGE: sql
+      DB_URL: jdbc:postgresql://db:5432/planovac
+      DB_USER: planovac
+      DB_PASSWORD: lokalni-heslo
+      JWT_SECRET: lokalni-jwt-tajemstvi-aspon-32-znaku-dlouhe
+      INTERNAL_API_KEY: lokalni-interni-klic-aspon-24-znaku
+      BOOTSTRAP_ADMIN_USER: admin
+      BOOTSTRAP_ADMIN_PASSWORD: admin-heslo-12345
+
+  web:
+    build: { context: ., dockerfile: web/Dockerfile }
+    depends_on: [api]
+    ports: ["8080:8080"]
+    environment:
+      APP_ENV: development
+      COOKIE_SECURE: "false"      # lokálně běžíme bez HTTPS
+      API_URL: http://api:8081
+      INTERNAL_API_KEY: lokalni-interni-klic-aspon-24-znaku
+
+volumes:
+  dbdata:

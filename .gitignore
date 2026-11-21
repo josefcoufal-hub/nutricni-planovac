@@ -1,0 +1,9 @@
+node_modules/
+frontend/dist/
+web/public/
+api/out/
+api/out-test/
+api/target/
+*.log
+.secrets.env
+.DS_Store

@@ -1,0 +1,25 @@
+name: CI
+on:
+  push:
+  pull_request:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: '21' }
+      - uses: actions/setup-node@v4
+        with: { node-version: '22' }
+      - name: API (Java) – sestavení a testy
+        run: ./api/build.sh test
+      - name: Frontend – jednotkové testy a sestavení
+        run: |
+          node frontend/test/core.test.js
+          (cd frontend && node build.js && node build.js --server)
+      - name: Web (Node.js) – testy proti skutečnému API
+        run: cd web && npm test
+      - name: Obrazy se dají sestavit
+        run: |
+          docker build -t planovac-api api
+          docker build -f web/Dockerfile -t planovac-web .

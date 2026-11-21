@@ -1,0 +1,13 @@
+{
+  "name": "planovac-web",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Webová vrstva (BFF) Nutričního plánovače: statické soubory, přihlášení přes cookie, proxy na Java API",
+  "license": "UNLICENSED",
+  "type": "commonjs",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "node --test --test-concurrency=1 test/*.test.js"
+  }
+}
