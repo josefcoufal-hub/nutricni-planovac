@@ -20,6 +20,8 @@ flowchart LR
 | Databáze | Azure SQL Database (serverless), alternativně PostgreSQL | – | tabulky `users`, `docs`, `audit` |
 | Infrastruktura | Bicep, Docker | `infra/`, `*/Dockerfile` | Azure Container Apps, registr obrazů, databáze, logy |
 
+**Vzhled (design v3).** Rozhraní používá design „Nutriční plánovač v3“: tmavě zelený postranní panel s barevnými sekcemi, velké zaoblené karty, tmavé pilulkové záložky, graf energie po dnech a donut se skladbou energie na Přehledu, mřížka karet klientů s filtry, hledání (Ctrl+K) a zvoneček s upozorněními. Všechny funkce zůstaly, mobilní zobrazení i tmavý režim fungují dál. Styly jsou v `frontend/src/style.css` (poslední část „DESIGN v3“).
+
 Obě aplikační vrstvy záměrně nemají žádné závislosti (jen JDBC ovladač za běhu). Znamená to méně aktualizací a méně rizik z cizího kódu.
 
 ## Rychlý start (lokálně)

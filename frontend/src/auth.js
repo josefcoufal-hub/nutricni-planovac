@@ -132,8 +132,8 @@
   // ------------------------------------------------------------ postranní panel + nastavení
   Auth.sideHtml = function () {
     if (!Auth.isServer() || !Auth.user) return '';
-    return '<div class="side-user"><span class="xs muted">Přihlášeno jako</span><b class="sm" title="' + esc(Auth.user.username) + '">' + esc(nameOf(Auth.user)) + '</b>' +
-      '<button class="btn btn-sm" type="button" data-act="logout">Odhlásit se</button></div>';
+    return '<div class="side-user"><span class="sr">Přihlášeno jako ' + esc(nameOf(Auth.user)) + ' (' + esc(Auth.user.username) + ')</span>' +
+      '<button class="btn btn-sm" type="button" data-act="logout" title="Přihlášeno jako ' + esc(Auth.user.username) + '">Odhlásit se</button></div>';
   };
 
   Auth.cardsHtml = function () {

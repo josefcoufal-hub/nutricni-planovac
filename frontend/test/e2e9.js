@@ -1,0 +1,37 @@
+// Design v3: postranní panel, hledání (Ctrl+K), zvonek, graf energie, mřížka klientů s filtry.
+const { open } = require('./harness');
+const { ok, summary } = require('./lib');
+(async () => {
+  const { browser, page, logs } = await open({ viewport: { width: 1440, height: 900 } });
+  const wait = (ms) => page.waitForTimeout(ms);
+  const T = (s) => page.evaluate((s) => (document.querySelector(s) || {}).innerText || '', s);
+  await page.click('button[data-act="demo-load"]'); await page.waitForSelector('.tabs'); await wait(500);
+  console.log('S. Nový vzhled');
+  await page.click('button[data-act="nav"][data-page="dashboard"]'); await wait(300);
+  ok(await page.locator('.side .nav-item .nav-ic').count() >= 6, 'postranní panel má barevné ikony sekcí');
+  ok(await page.locator('#dash-energy .ebar').count() >= 1, 'přehled má graf energie po dnech');
+  ok(await page.locator('#dash-energy .donut circle').count() === 3, 'donut má tři segmenty');
+  await page.click('button[data-act="dash-chart"][data-m="goal"]'); await wait(200);
+  ok(/v cíli/.test(await T('#dash-energy .chart-legend')), 'režim Plnění cíle má vlastní legendu');
+  await page.click('#dash-energy .ebar'); await wait(400);
+  ok(await page.locator('.editor').count() === 1, 'klik na den grafu otevře editor jídelníčku');
+  await page.keyboard.press('Control+k'); await wait(300);
+  ok(await page.locator('.modal #gs-q').count() === 1, 'Ctrl+K otevře hledání');
+  await page.fill('#gs-q', 'Jana'); await wait(200);
+  ok(/Jana/.test(await T('#gs-res')), 'hledání najde klienta');
+  await page.click('#gs-res [data-act="gs-client"]'); await wait(400);
+  ok(await page.locator('.tabs').count() === 1 && /Jana/.test(await T('#main')), 'výsledek hledání otevře klienta');
+  await page.click('button[data-act="nav"][data-page="dashboard"]'); await wait(300);
+  await page.click('.utils .bell'); await wait(300);
+  ok(/Upozornění/.test(await T('.modal')) && /Jana/.test(await T('.modal')), 'zvonek ukáže upozornění klientů');
+  await page.click('button[data-act="modal-close"]'); await wait(200);
+  await page.click('button[data-act="nav"][data-page="clients"]'); await wait(300);
+  ok(await page.locator('.cl-grid .ccard').count() === 1, 'klienti jsou v mřížce karet');
+  await page.click('button[data-act="client-filter"][data-f="issues"]'); await wait(200);
+  ok(await page.locator('.cl-grid .ccard').count() === 1, 'filtr K řešení ukáže klientku s upozorněním');
+  await page.fill('#client-q', 'zzzz'); await wait(200);
+  ok(/Nic nenalezeno/.test(await T('#client-list')), 'hledání bez výsledku to řekne');
+  ok(logs.filter((l) => !/Failed to load|net::ERR/.test(l)).length === 0, 'bez chyb v konzoli: ' + logs.join(' | ').slice(0, 200));
+  await browser.close();
+  process.exit(summary() ? 1 : 0);
+})();

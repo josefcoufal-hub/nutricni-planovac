@@ -18,7 +18,7 @@ const { ok, eq, summary } = require('./lib');
   ok(/Kde klienti jsou/.test(d) && /Co udělat/.test(d) && /Nejbližší termíny/.test(d), 'přehled má fáze, úkoly, termíny');
   ok(/Kontrola je po termínu, zpoždění 7 dní/.test(d), 'zpožděná kontrola je v úkolech (T-21 + 14 dní = 7 dní po termínu)');
   ok(/1 \/ 1\s*\n?\s*cílů na cestě/.test(d), 'cíl ukázkové klientky je na cestě');
-  ok(/78,6 → 72,0 kg/.test(d), 'karta klienta ukazuje cíl');
+  ok(/Klienti a cesta k cíli/.test(d), 'tabulka klientů ukazuje cestu k cíli');
   await page.click('button[data-act="dash-do"]'); await wait(500);
   ok(await page.locator('.modal').count() > 0, 'tlačítko u úkolu otevře zápis kontroly');
   const mt = await T('.modal');

@@ -63,7 +63,18 @@
     refresh: '<path d="M20 11a8 8 0 00-14-4L4 9"/><path d="M4 4v5h5"/><path d="M4 13a8 8 0 0014 4l2-2"/><path d="M20 20v-5h-5"/>',
     stop: '<rect x="6" y="6" width="12" height="12" rx="2"/>',
     shield: '<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/>',
-    moon: '<path d="M20 14.5A8 8 0 019.5 4 8 8 0 1020 14.5z"/>'
+    moon: '<path d="M20 14.5A8 8 0 019.5 4 8 8 0 1020 14.5z"/>',
+    'l-dash': '<rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/>',
+    'l-users': '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+    'l-apple': '<path d="M12 20.94c1.5 0 2.75 1.06 4 1.06 3 0 6-8 6-12.22A4.91 4.91 0 0 0 17 5c-2.22 0-4 1.44-5 2-1-.56-2.78-2-5-2a4.9 4.9 0 0 0-5 4.78C2 14 5 22 8 22c1.25 0 2.5-1.06 4-1.06Z"/><path d="M10 2c1 .5 2 2 2 5"/>',
+    'l-chef': '<path d="M17 21a1 1 0 0 0 1-1v-5.35c0-.457.316-.844.727-1.041a4 4 0 0 0-2.134-7.589 5 5 0 0 0-9.186 0 4 4 0 0 0-2.134 7.588c.411.198.727.585.727 1.041V20a1 1 0 0 0 1 1Z"/><path d="M6 17h12"/>',
+    'l-layers': '<path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/>',
+    'l-settings': '<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>',
+    'l-userplus': '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/>',
+    'l-leaf': '<path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>',
+    'l-sunrise': '<path d="M12 2v8"/><path d="m4.93 10.93 1.41 1.41"/><path d="M2 18h2"/><path d="M20 18h2"/><path d="m19.07 10.93-1.41 1.41"/><path d="M22 22H2"/><path d="m8 6 4-4 4 4"/><path d="M16 18a4 4 0 0 0-8 0"/>',
+    'l-soup': '<path d="M12 21a9 9 0 0 0 9-9H3a9 9 0 0 0 9 9Z"/><path d="M7 21h10"/><path d="M19.5 12 22 6"/><path d="M16.25 3c.27.1.8.53.75 1.36-.06.83-.93 1.2-1 2.02-.05.78.34 1.24.73 1.62"/><path d="M11.25 3c.27.1.8.53.74 1.36-.05.83-.93 1.2-.98 2.02-.06.78.33 1.24.72 1.62"/><path d="M6.25 3c.27.1.8.53.75 1.36-.06.83-.93 1.2-1 2.02-.05.78.34 1.24.74 1.62"/>',
+    'l-bell': '<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>'
   };
   const ic = (n, cls) => '<svg class="ico ' + (cls || '') + '" viewBox="0 0 24 24" aria-hidden="true">' + (P[n] || '') + '</svg>';
   App.ic = ic;
@@ -288,8 +299,8 @@
 
   // ------------------------------------------------------------ router / shell
   const NAV = [
-    ['dashboard', 'Přehled', 'home'], ['clients', 'Klienti', 'users'], ['foods', 'Potraviny', 'food'],
-    ['recipes', 'Recepty', 'book'], ['templates', 'Šablony', 'layers'], ['settings', 'Nastavení', 'sliders']
+    ['dashboard', 'Přehled', 'l-dash', '#3FD0B5'], ['clients', 'Klienti', 'l-users', '#FFB27A'], ['foods', 'Potraviny', 'l-apple', '#6EE7B7'],
+    ['recipes', 'Recepty', 'l-chef', '#FF9BC4'], ['templates', 'Šablony', 'l-layers', '#A5B4FC'], ['settings', 'Nastavení', 'l-settings', '#9FB5B3']
   ];
   const HASH = { dashboard: 'prehled', clients: 'klienti', foods: 'potraviny', recipes: 'recepty', templates: 'sablony', settings: 'nastaveni' };
   const HASH_REV = Object.fromEntries(Object.entries(HASH).map(([k, v]) => [v, k]));
@@ -319,14 +330,30 @@
     if (tb) tb.innerHTML = '<span class="dot ' + Store.status + '" style="margin:0"></span>';
   };
 
+  App.alertsOf = function (c, all) {
+    let list;
+    try { list = App.clientCtx(c).agenda || []; } catch (e) { list = App.clientIssues(c); }
+    return all ? list : list.filter((i) => i.level !== 'info');
+  };
+  App.attentionCount = function () {
+    try {
+      return App.clients(false).filter((c) => App.alertsOf(c).length).length;
+    } catch (e) { return 0; }
+  };
   App.shell = function (content) {
     const sec = sectionOf(S.route.page);
-    const nav = NAV.map(([k, l, i]) => '<button class="nav-item" type="button" data-act="nav" data-page="' + k + '"' + (sec === k ? ' aria-current="page"' : '') + '>' + ic(i) + '<span>' + l + '</span></button>').join('');
-    const bn = [['dashboard', 'Přehled', 'home'], ['clients', 'Klienti', 'users'], ['foods', 'Potraviny', 'food'], ['recipes', 'Recepty', 'book'], ['settings', 'Další', 'sliders']]
+    const att = App.attentionCount();
+    const nav = NAV.map(([k, l, i, col]) => '<button class="nav-item" type="button" data-act="nav" data-page="' + k + '" style="--sc:' + col + '"' + (sec === k ? ' aria-current="page"' : '') + '><span class="nav-ic">' + ic(i) + '</span><span class="nl">' + l + '</span>' +
+      (k === 'clients' && att ? '<span class="nav-badge" title="Klienti s upozorněním">' + att + '</span>' : '') + '</button>').join('');
+    const bn = [['dashboard', 'Přehled', 'l-dash'], ['clients', 'Klienti', 'l-users'], ['foods', 'Potraviny', 'l-apple'], ['recipes', 'Recepty', 'l-chef'], ['settings', 'Další', 'l-settings']]
       .map(([k, l, i]) => '<button class="bn" type="button" data-act="nav" data-page="' + k + '"' + ((sec === k || (k === 'settings' && sec === 'templates')) ? ' aria-current="page"' : '') + '>' + ic(i, 'ico-lg') + '<span>' + l + '</span></button>').join('');
-    return '<div class="app"><nav class="side" aria-label="Hlavní nabídka"><div class="brand"><span class="brand-mark">' + ic('food') + '</span>Nutriční plánovač</div>' + nav +
-      '<div class="nav-sep"></div><button class="nav-item" type="button" data-act="nav-client-new">' + ic('plus') + '<span>Nový klient</span></button>' + App.statusHtml() + (App.Auth ? App.Auth.sideHtml() : '') + '</nav>' +
-      '<div class="main-wrap"><div class="topbar"><span class="brand-mark" style="width:28px;height:28px">' + ic('food') + '</span><b class="head-font">Nutriční plánovač</b><span class="sp"></span><span id="topstatus" title="Stav ukládání"><span class="dot ' + Store.status + '" style="margin:0"></span></span></div>' +
+    const au = App.Auth && App.Auth.isServer() && App.Auth.user ? App.Auth.user : null;
+    const meName = au ? (au.displayName || au.username) : 'Nutriční terapeut';
+    const me = '<div class="side-me"><span class="side-av">' + esc(initials(meName)) + '</span><span><b>' + esc(meName) + '</b><small>' + (au ? (au.role === 'admin' ? 'Správce' : 'Nutriční terapeut') : 'Nutriční terapeut') + '</small></span></div>';
+    return '<div class="app"><nav class="side" aria-label="Hlavní nabídka"><div class="brand"><span class="brand-mark">' + ic('l-leaf') + '</span><span class="brand-t"><b>Nutriční</b><span>plánovač</span></span></div>' + nav +
+      '<div class="nav-sep"></div><button class="nav-item nav-new" type="button" data-act="nav-client-new"><span class="nav-ic">' + ic('l-userplus') + '</span><span class="nl">Nový klient</span></button>' +
+      '<div class="side-card">' + me + App.statusHtml() + (App.Auth ? App.Auth.sideHtml() : '') + '</div></nav>' +
+      '<div class="main-wrap"><div class="topbar"><span class="brand-mark" style="width:28px;height:28px;border-radius:9px">' + ic('l-leaf', 'ico-sm') + '</span><b class="head-font">Nutriční plánovač</b><span class="sp"></span><button class="btn btn-ghost btn-icon" type="button" data-act="gsearch" aria-label="Hledat">' + ic('search') + '</button><span id="topstatus" title="Stav ukládání"><span class="dot ' + Store.status + '" style="margin:0"></span></span></div>' +
       '<main class="main" id="main">' + content + '</main></div></div><nav class="bottomnav" aria-label="Hlavní nabídka">' + bn + '</nav>';
   };
 
@@ -403,6 +430,47 @@
     'retry-save': async () => { const ok = await Store.flush(); App.toast(ok ? 'Uloženo' : 'Uložení se znovu nepodařilo', ok ? {} : { kind: 'bad' }); }
   });
 
+  // ------------------------------------------------------------ globální hledání a upozornění
+  const gsResults = (q) => {
+    const n = NT.norm(q || '');
+    if (n.length < 2) return '<p class="muted sm" style="padding:6px 2px">Piš aspoň dvě písmena. Hledá se mezi klienty, potravinami a recepty.</p>';
+    const cl = App.clients(false).concat(App.clients(true)).filter((c) => NT.norm(c.name).indexOf(n) >= 0).slice(0, 6);
+    const fo = S.cat.foods.filter((f) => NT.norm(f.name).indexOf(n) >= 0).slice(0, 6);
+    const re = S.cat.recipes.filter((r) => NT.norm(r.name).indexOf(n) >= 0).slice(0, 6);
+    const grp = (t, ico, rows) => rows ? '<h4 style="margin:12px 0 6px">' + t + '</h4><div class="pick-list">' + rows + '</div>' : '';
+    const row = (act, attrs, ico, name, sub) => '<button class="pick" type="button" data-act="' + act + '" ' + attrs + '>' + ic(ico, 'ico-sm') + '<span class="grow"><b>' + esc(name) + '</b>' + (sub ? '<br><span class="xs muted">' + esc(sub) + '</span>' : '') + '</span>' + ic('right', 'ico-sm') + '</button>';
+    const h = grp('Klienti', 'l-users', cl.map((c) => row('gs-client', 'data-id="' + c.id + '"', 'l-users', c.name, NT.GOAL_LABEL[c.goal] || '')).join('')) +
+      grp('Potraviny', 'l-apple', fo.map((f) => row('gs-food', 'data-id="' + esc(f.id) + '"', 'l-apple', f.name, '')).join('')) +
+      grp('Recepty', 'l-chef', re.map((r) => row('gs-recipe', 'data-id="' + esc(r.id) + '"', 'l-chef', r.name, '')).join(''));
+    return h || '<p class="muted sm" style="padding:6px 2px">Nic nenalezeno.</p>';
+  };
+  App.modals.gsearch = (m) => ({
+    title: 'Hledat', size: '',
+    body: '<div class="cl-search" style="width:100%">' + ic('search') + '<input type="search" id="gs-q" data-in="gs-q" data-fid="gsq" placeholder="Jméno klienta, potravina nebo recept" autocomplete="off" value="' + esc(m.q || '') + '"></div><div id="gs-res">' + gsResults(m.q) + '</div>',
+    focus: '#gs-q'
+  });
+  App.IN['gs-q'] = (t) => { const m = S.modals[S.modals.length - 1]; if (m) m.q = t.value; const r = $('#gs-res'); if (r) r.innerHTML = gsResults(t.value); };
+  const gsOpen = (fn) => { App.closeAll(); fn(); };
+  Object.assign(App.A, {
+    gsearch: () => { if (!S.ready) return; if (S.modals.length && S.modals[S.modals.length - 1].type === 'gsearch') return; App.openModal({ type: 'gsearch', q: '' }); },
+    'gs-client': (t) => gsOpen(() => App.A['client-open'](t)),
+    'gs-food': (t) => gsOpen(() => { const f = S.cat.foods.find((x) => String(x.id) === t.dataset.id); S.ui.foodQ = f ? f.name : ''; S.ui.foodCat = ''; S.ui.foodFilter = ''; App.go('foods'); }),
+    'gs-recipe': (t) => gsOpen(() => { const r = S.cat.recipes.find((x) => String(x.id) === t.dataset.id); S.ui.recipeQ = r ? r.name : ''; S.ui.recipeTag = ''; App.go('recipes'); }),
+    bell: () => { if (S.ready) App.openModal({ type: 'bell' }); }
+  });
+  App.modals.bell = () => {
+    const items = [];
+    App.clients(false).forEach((c) => App.alertsOf(c, true).forEach((i) => items.push({ c, i })));
+    const rank = { bad: 0, warn: 1, info: 2 };
+    items.sort((a, b) => rank[a.i.level] - rank[b.i.level]);
+    const body = !items.length ? '<p class="muted">Žádná upozornění. U klientů je vše v pořádku.</p>' :
+      '<div class="stack-sm">' + items.slice(0, 30).map((w) => '<button class="ag ' + w.i.level + '" type="button" data-act="gs-client" data-id="' + w.c.id + '" style="width:100%;border:0;text-align:left;cursor:pointer"><span class="ag-i">' + ic(w.i.level === 'info' ? 'info' : 'alert', 'ico-sm') + '</span><span class="grow"><b>' + esc(w.c.name) + '</b><br><span class="sm muted">' + esc(w.i.text) + '</span></span>' + ic('right', 'ico-sm') + '</button>').join('') + '</div>';
+    return { title: 'Upozornění', size: '', body, footer: '<button class="btn" type="button" data-act="modal-close">Zavřít</button>' };
+  };
+  document.addEventListener('keydown', function (e) {
+    if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K') && S.ready) { e.preventDefault(); App.A.gsearch(); }
+  });
+
   Store.onStatus(function (st, err) {
     App.refreshStatus();
     if (st === 'error') App.toast('Data se nepodařilo uložit: ' + (err || 'neznámá chyba') + '. Zkus to znovu v levé nabídce.', { kind: 'bad', ms: 9000 });
@@ -410,8 +478,14 @@
 
   // ------------------------------------------------------------ společné části zobrazení
   App.macroSw = (k) => '<span class="sw" style="--c-x:var(--c-' + k + ')"></span>';
+  App.utilsHtml = () => {
+    let dot = false;
+    try { dot = App.clients(false).some((c) => App.alertsOf(c).length); } catch (e) { /* ignore */ }
+    return '<div class="utils"><button class="gsearch" type="button" data-act="gsearch" aria-label="Hledat klienta, potravinu nebo recept">' + ic('search') + '<span>Hledat klienta, potravinu, recept…</span><kbd>Ctrl K</kbd></button>' +
+      '<button class="bell" type="button" data-act="bell" aria-label="Upozornění">' + ic('l-bell') + (dot ? '<i></i>' : '') + '</button></div>';
+  };
   App.pageHead = (title, sub, actions, crumb) =>
-    '<div class="page-head">' + '<div class="grow">' + (crumb || '') + '<h1>' + title + '</h1>' + (sub ? '<p class="muted">' + sub + '</p>' : '') + '</div>' + (actions ? '<div class="row">' + actions + '</div>' : '') + '</div>';
+    '<div class="page-head">' + '<div class="grow">' + (crumb || '') + '<h1>' + title + '</h1>' + (sub ? '<p class="muted">' + sub + '</p>' : '') + '</div>' + (actions ? '<div class="row">' + actions + '</div>' : '') + App.utilsHtml() + '</div>';
   App.crumb = (label, act, data) => '<button class="crumb" type="button" data-act="' + act + '" ' + (data || '') + '>' + ic('left', 'ico-sm') + esc(label) + '</button>';
   App.emptyBox = (title, text, btn) => '<div class="empty"><h3>' + esc(title) + '</h3><p>' + esc(text) + '</p>' + (btn || '') + '</div>';
   App.callout = (kind, html) => '<div class="callout ' + kind + '">' + ic(kind === 'ok' ? 'check' : kind === 'info' ? 'info' : 'alert') + '<div>' + html + '</div></div>';
@@ -475,29 +549,50 @@
   };
 
   // ------------------------------------------------------------ KLIENTI
-  App.views.clients = function () {
+  const clientFilterFn = (f) => (c) => {
+    if (!f) return true;
+    if (f === 'issues') return App.alertsOf(c).length > 0;
+    return c.goal === f;
+  };
+  App.clientFiltered = function () {
     const q = NT.norm(S.ui.clientQ);
-    const arch = App.clients(true);
     let list = App.clients(S.ui.showArchived);
     if (q) list = list.filter((c) => NT.norm(c.name).indexOf(q) >= 0);
-    let h = App.pageHead('Klienti', '', '<button class="btn btn-primary" type="button" data-act="client-new">' + ic('plus') + 'Nový klient</button>');
-    h += '<div class="row" style="margin-bottom:14px"><div class="grow" style="max-width:380px"><input type="search" id="client-q" data-in="client-q" data-fid="cq" placeholder="Hledat podle jména" value="' + esc(S.ui.clientQ) + '" aria-label="Hledat klienta"></div>' +
-      (arch.length || S.ui.showArchived ? '<label class="chk"><input type="checkbox" data-ch="client-arch"' + (S.ui.showArchived ? ' checked' : '') + '> Archivovaní (' + arch.length + ')</label>' : '') + '</div>';
-    h += '<div id="client-list">' + App.clientListHtml(list) + '</div>';
+    return list.filter(clientFilterFn(S.ui.clientFilter || ''));
+  };
+  App.views.clients = function () {
+    const arch = App.clients(true);
+    const all = App.clients(S.ui.showArchived);
+    const goals = NT.GOALS.filter(([k]) => all.some((c) => c.goal === k));
+    const chip = (k, l) => '<button class="chip" type="button" data-act="client-filter" data-f="' + k + '" aria-pressed="' + ((S.ui.clientFilter || '') === k) + '">' + esc(l) + '</button>';
+    let h = App.pageHead('Klienti', S.ui.showArchived ? 'Včetně archivovaných' : all.length + ' ' + plural(all.length, 'klient', 'klienti', 'klientů'), '<button class="btn btn-primary" type="button" data-act="client-new">' + ic('l-userplus') + 'Nový klient</button>');
+    h += '<div class="cl-tools"><label class="cl-search">' + ic('search') + '<input type="search" id="client-q" data-in="client-q" data-fid="cq" placeholder="Hledat klienta" value="' + esc(S.ui.clientQ) + '" aria-label="Hledat klienta"></label>' +
+      chip('', 'Všichni') + chip('issues', 'K řešení') + goals.map(([k, l]) => chip(k, l)).join('') +
+      (arch.length || S.ui.showArchived ? '<label class="chk" style="margin-left:6px"><input type="checkbox" data-ch="client-arch"' + (S.ui.showArchived ? ' checked' : '') + '> Archivovaní (' + arch.length + ')</label>' : '') + '</div>';
+    h += '<div id="client-list">' + App.clientListHtml(App.clientFiltered()) + '</div>';
     return h;
   };
   App.clientListHtml = function (list) {
-    if (!list.length) return App.emptyBox(S.ui.clientQ ? 'Nic nenalezeno' : 'Zatím žádní klienti', S.ui.clientQ ? 'Zkus upravit hledání.' : 'Přidej prvního klienta, nebo si načti ukázkového.', S.ui.clientQ ? '' : '<div class="row"><button class="btn btn-primary" type="button" data-act="client-new">' + ic('plus') + 'Nový klient</button><button class="btn" type="button" data-act="demo-load">Načíst ukázkového klienta</button></div>');
-    return '<div class="card" style="padding:0;overflow:hidden">' + list.map((c) => {
-      const cur = App.current(c.id);
-      const plans = App.plansOf(c.id);
-      const iss = App.clientIssues(c).filter((i) => i.level !== 'info');
-      return '<button class="list-row" type="button" data-act="client-open" data-id="' + c.id + '"><span class="avatar">' + esc(initials(c.name)) + '</span><span class="grow"><b>' + esc(c.name) + '</b>' + (c.demo ? ' <span class="badge info">Ukázka</span>' : '') +
-        '<br><span class="sm muted">' + esc(NT.GOAL_LABEL[c.goal] || 'Bez cíle') + (cur.weight ? ' · ' + fmt(cur.weight, 1) + ' kg' : '') + ' · ' + plans.length + ' ' + plural(plans.length, 'jídelníček', 'jídelníčky', 'jídelníčků') + '</span></span>' +
-        (iss.length ? '<span class="badge warn">' + iss.length + ' ' + plural(iss.length, 'upozornění', 'upozornění', 'upozornění') + '</span>' : '') + ic('right', 'ico-sm') + '</button>';
+    const filtered = S.ui.clientQ || S.ui.clientFilter;
+    if (!list.length) return App.emptyBox(filtered ? 'Nic nenalezeno' : 'Zatím žádní klienti', filtered ? 'Zkus upravit hledání nebo filtr.' : 'Přidej prvního klienta, nebo si načti ukázkového.', filtered ? '' : '<div class="row"><button class="btn btn-primary" type="button" data-act="client-new">' + ic('l-userplus') + 'Nový klient</button><button class="btn" type="button" data-act="demo-load">' + ic('wand') + 'Načíst ukázkového klienta</button></div>');
+    return '<div class="cl-grid">' + list.map((c) => {
+      const ctx = App.clientCtx(c);
+      const ser = NT.weightSeries(ctx.track.measures).slice(-6).map((p) => p.weight);
+      const lo = Math.min.apply(null, ser), hi = Math.max.apply(null, ser);
+      const bars = ser.length > 1 ? ser.map((v) => '<i style="height:' + (hi === lo ? 60 : Math.round(25 + 75 * (v - lo) / (hi - lo))) + '%"></i>').join('') : '';
+      const pct = App.goalPct({ c, ctx });
+      const age = NT.ageOn(c.birth);
+      const issue = ctx.agenda.filter((i) => i.level !== 'info')[0];
+      const kc = ctx.needs.ok ? ctx.needs.rest.kcal : null;
+      return '<button class="ccard" type="button" data-act="client-open" data-id="' + c.id + '" style="' + App.avStyle(c.id) + '"><span class="top"><span class="av">' + esc(initials(c.name)) + '</span><span class="nm"><b>' + esc(c.name) + (c.demo ? ' <span class="badge info">Ukázka</span>' : '') + (c.archived ? ' <span class="badge">Archiv</span>' : '') + '</b>' +
+        '<small>' + esc(NT.GOAL_LABEL[c.goal] || 'Bez cíle') + (age != null ? ' · ' + age + ' let' : '') + '</small></span></span>' +
+        '<span class="mid"><span class="c1"><b>' + (ctx.cur.weight ? fmt(ctx.cur.weight, 1) + ' kg' : '– kg') + '</b><small>' + (kc ? 'cíl ' + fmt(kc) + ' kcal / den' : 'cíl zatím nejde spočítat') + '</small></span>' + (bars ? '<span class="sp5" aria-hidden="true">' + bars + '</span>' : '') + '</span>' +
+        '<span class="pr"><span class="ph"><span>Cesta k cílové hmotnosti</span><span>' + (pct == null ? '–' : pct + ' %') + '</span></span><span class="tr"><i style="width:' + (pct || 0) + '%"></i></span></span>' +
+        (issue ? '<span class="al ' + issue.level + '">' + ic('alert', 'ico-sm') + '<span>' + esc(issue.text) + '</span></span>' : '') + '</button>';
     }).join('') + '</div>';
   };
-  App.IN['client-q'] = (t) => { S.ui.clientQ = t.value; const q = NT.norm(t.value); let list = App.clients(S.ui.showArchived); if (q) list = list.filter((c) => NT.norm(c.name).indexOf(q) >= 0); $('#client-list').innerHTML = App.clientListHtml(list); };
+  App.A['client-filter'] = (t) => { S.ui.clientFilter = t.dataset.f; App.rerender(); };
+  App.IN['client-q'] = (t) => { S.ui.clientQ = t.value; $('#client-list').innerHTML = App.clientListHtml(App.clientFiltered()); };
   App.CH['client-arch'] = (t) => { S.ui.showArchived = t.checked; App.rerender(); };
 
   App.modals.clientNew = (m) => ({

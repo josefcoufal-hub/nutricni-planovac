@@ -415,13 +415,23 @@
     const goals = rows.filter((r) => r.c.goalPlan && r.c.goalPlan.status === 'approved' && r.ctx.assessment && r.ctx.assessment.progress);
     const behind = goals.filter((r) => r.ctx.assessment.progress.state === 'behind');
     const noPlan = rows.filter((r) => !r.ctx.hasPlan);
-    // KPI
-    const kpi = (v, l, sub, cls, ico) => '<div class="stat kpi ' + (cls || '') + '"><span class="kpi-i">' + ic(ico, 'ico-sm') + '</span><span class="v">' + v + '</span><span class="l">' + l + '</span>' + (sub ? '<span class="kpi-s">' + sub + '</span>' : '') + '</div>';
-    h += '<div class="grid g4" style="margin-bottom:18px">' +
-      kpi(clients.length, plural(clients.length, 'aktivní klient', 'aktivní klienti', 'aktivních klientů'), noPlan.length ? noPlan.length + ' ' + plural(noPlan.length, 'zatím bez jídelníčku', 'zatím bez jídelníčku', 'zatím bez jídelníčku') : 'všichni mají jídelníček', '', 'users') +
-      kpi(urgent.length, 'k řešení teď', urgent.length ? urgent.filter((x) => x.it.level === 'bad').length + ' naléhavých' : 'nic nehoří', urgent.length ? (urgent.some((x) => x.it.level === 'bad') ? 'bad' : 'warn') : 'ok', 'alert') +
-      kpi(overdueChecks.length, 'kontrol po termínu', dueSoon.length ? dueSoon.length + ' ' + plural(dueSoon.length, 'další do týdne', 'další do týdne', 'dalších do týdne') : 'v nejbližším týdnu žádná další', overdueChecks.length ? 'bad' : 'ok', 'calendar') +
-      kpi(goals.length ? goals.length - behind.length + ' / ' + goals.length : '–', 'cílů na cestě', goals.length ? (behind.length ? behind.length + ' ' + plural(behind.length, 'pozadu', 'pozadu', 'pozadu') : 'žádný není pozadu') : 'zatím žádný odsouhlasený cíl', behind.length ? 'warn' : '', 'target') + '</div>';
+    // KPI (barevné dlaždice s mini sloupci z reálných dat)
+    const norm01 = (arr) => { const mx = Math.max.apply(null, arr.concat([1])); return arr.map((v) => Math.max(12, Math.round(v / mx * 100))); };
+    const sparkOf = (arr, col, ttl) => '<span class="spark" title="' + esc(ttl) + '" aria-hidden="true">' + norm01(arr).map((h, i) => '<i style="height:' + h + '%;opacity:' + (0.35 + 0.65 * (i + 1) / arr.length).toFixed(2) + ';--kc:' + col + '"></i>').join('') + '</span>';
+    const kpi = (v, l, chip, cls, ico, pal, arr, ttl, act) => '<button class="stat kpi ' + (cls || '') + '" type="button" ' + (act || 'data-act="nav" data-page="clients"') + ' style="--kb:' + pal[0] + ';--kf:' + pal[1] + '"><span class="kpi-top"><span class="kpi-i">' + ic(ico) + '</span><span class="kpi-chip">' + esc(chip) + '</span></span>' +
+      '<span class="kpi-bot"><div><span class="v">' + v + '</span><span class="l">' + l + '</span></div>' + (arr.length ? sparkOf(arr, pal[2], ttl) : '') + '</span></button>';
+    const perStage = STAGE_ORDER.map((k) => rows.filter((r) => r.stage === k).length);
+    const perClientTodo = rows.map((r) => r.ctx.agenda.filter((x) => x.level !== 'info').length).sort((x, y) => y - x).slice(0, 7).reverse();
+    const perClientOver = rows.map((r) => r.ctx.js.checkup.overdue || 0).sort((x, y) => y - x).slice(0, 7).reverse();
+    const perClientGoal = goals.map((r) => Math.max(0, Math.min(100, goalPct(r) == null ? 0 : goalPct(r)))).slice(0, 7);
+    h += '<div class="grid g4" style="margin-bottom:22px">' +
+      kpi(clients.length, plural(clients.length, 'aktivní klient', 'aktivní klienti', 'aktivních klientů'), noPlan.length ? noPlan.length + ' bez jídelníčku' : 'všichni mají jídelníček', '', 'l-users', ['#DDF6EF', '#0B7A4F', '#10B981'], perStage, 'Počet klientů podle fáze spolupráce') +
+      kpi(urgent.length, 'k řešení teď', urgent.length ? urgent.filter((x) => x.it.level === 'bad').length + ' naléhavých' : 'nic nehoří', urgent.length ? (urgent.some((x) => x.it.level === 'bad') ? 'bad' : 'warn') : '', 'alert', ['#FFEBDD', '#C2540A', '#FF8A4C'], perClientTodo, 'Otevřené úkoly u jednotlivých klientů') +
+      kpi(overdueChecks.length, 'kontrol po termínu', dueSoon.length ? dueSoon.length + ' ' + plural(dueSoon.length, 'další do týdne', 'další do týdne', 'dalších do týdne') : 'další do týdne: žádná', overdueChecks.length ? 'bad' : '', 'calendar', ['#FFE4EF', '#B4236B', '#EC4899'], perClientOver, 'Dny po termínu kontroly u klientů') +
+      kpi(goals.length ? goals.length - behind.length + ' / ' + goals.length : '–', 'cílů na cestě', goals.length ? (behind.length ? behind.length + ' pozadu' : 'žádný není pozadu') : 'zatím žádný cíl', behind.length ? 'warn' : '', 'target', ['#ECE6FF', '#5B3CC4', '#8B5CF6'], perClientGoal, 'Pokrok klientů k cílové hmotnosti') + '</div>';
+
+    // graf energie po dnech + skladba energie (jídelníček vybraného klienta)
+    h += energySection(rows);
 
     // pipeline
     const counts = {}; rows.forEach((r) => { counts[r.stage] = (counts[r.stage] || 0) + 1; });
@@ -455,30 +465,96 @@
     }).join('') + '</div>';
     h += '</div></div>';
 
-    // karty klientů
+    // klienti a cesta k cíli
     let list = rows;
     if (S.ui.dashStage) list = rows.filter((r) => r.stage === S.ui.dashStage);
     const urg = (r) => (r.ctx.agenda.length ? rank[r.ctx.agenda[0].level] : 3);
     list = list.slice().sort((a, b) => urg(a) - urg(b));
-    h += '<div class="card-h" style="margin-bottom:10px"><h2>Klienti' + (S.ui.dashStage ? ': ' + esc(App.STAGE_LABEL[S.ui.dashStage]) : '') + '</h2><button class="btn btn-sm" type="button" data-act="nav" data-page="clients">Všichni klienti</button></div>';
+    h += '<div class="card" style="margin-bottom:22px"><div class="card-h"><h2>Klienti a cesta k cíli' + (S.ui.dashStage ? ': ' + esc(App.STAGE_LABEL[S.ui.dashStage]) : '') + '</h2><button class="btn btn-sm" type="button" data-act="nav" data-page="clients">Všichni klienti</button></div>';
     if (!list.length) h += App.emptyBox('V této fázi nikdo není', 'Zruš výběr fáze nahoře.', '');
-    else h += '<div class="grid g-auto" style="margin-bottom:18px">' + list.map((r) => clientCard(r)).join('') + '</div>';
+    else h += '<div style="overflow-x:auto"><table class="prog-tbl"><thead><tr><th>Klient</th><th class="hide-s">Cíl kcal</th><th>Pokrok k cílové hmotnosti</th><th class="hide-s r" style="text-align:right">Změna</th></tr></thead><tbody>' + list.map((r) => clientRow(r)).join('') + '</tbody></table></div>';
+    h += '</div>';
     h += libraryCard(rows);
     return h;
   };
-  const clientCard = (r) => {
-    const c = r.c, ctx = r.ctx, js = ctx.js, gp = c.goalPlan;
-    const ser = NT.weightSeries(ctx.track.measures).slice(-12).map((p) => p.weight);
-    const first = ctx.agenda[0];
-    let goal = '';
-    if (gp && gp.status === 'approved' && gp.kind === 'weight') {
-      const a = ctx.assessment; const p = a && a.progress;
-      goal = '<div class="cc-goal"><div class="row nw sm" style="justify-content:space-between"><span>' + ic('target', 'ico-sm') + ' ' + fmt(gp.startWeight, 1) + ' → <b>' + fmt(gp.targetWeight, 1) + ' kg</b> do ' + esc(shortD(gp.targetDate)) + '</span>' + (p ? '<span class="badge ' + (p.state === 'behind' ? 'warn' : 'ok') + '">' + (p.state === 'behind' ? 'pozadu' : p.state === 'ahead' ? 'před plánem' : 'v plánu') + '</span>' : '') + '</div>' + (p ? bar(p.done * 100, p.state === 'behind' ? 'warn' : '', 'Splněno ' + fmt(p.done * 100) + ' % cíle') : '') + '</div>';
-    } else if (gp && gp.status === 'approved') goal = '<div class="cc-goal sm">' + ic('flag', 'ico-sm') + ' ' + esc(gp.title || 'Cíl') + '</div>';
-    else goal = '<div class="cc-goal sm muted">Cíl zatím není odsouhlasen</div>';
-    return '<div class="card cc"><button class="cc-main" type="button" data-act="client-open" data-id="' + c.id + '" aria-label="Otevřít klienta ' + esc(c.name) + '"><div class="row nw" style="gap:10px"><span class="avatar">' + esc(App.initials(c.name)) + '</span><span class="grow" style="min-width:0"><b class="cc-name">' + esc(c.name) + '</b>' + (c.demo ? ' <span class="badge info">Ukázka</span>' : '') + '<br><span class="sm muted">' + esc(App.STAGE_LABEL[r.stage]) + (ctx.weight ? ' · ' + fmt(ctx.weight, 1) + ' kg' : '') + '</span></span>' + spark(ser, 84, 28) + '</div>' +
-      segBar(js) + goal + '</button><div class="cc-next ' + (first ? first.level : 'ok') + '">' + ic(first ? (first.level === 'info' ? 'right' : 'alert') : 'check', 'ico-sm') + '<span>' + esc(first ? first.text : 'Vše v pořádku') + '</span></div></div>';
+  const AV = [['#FFE3CF', '#B4540A'], ['#DDE9FF', '#1D4FB8'], ['#E9E2FF', '#5B3CC4'], ['#D8F5E8', '#0B7A4F'], ['#FFE0EE', '#B4236B'], ['#FFF0C2', '#8A5B00']];
+  const avOf = (id) => { let x = 0; String(id).split('').forEach((ch) => { x = (x * 31 + ch.charCodeAt(0)) >>> 0; }); return AV[x % AV.length]; };
+  App.avStyle = (id) => { const a = avOf(id); return '--av-bg:' + a[0] + ';--av-fg:' + a[1]; };
+  const goalPct = (r) => {
+    const gp = r.c.goalPlan; const w = r.ctx.weight;
+    if (!(gp && gp.status === 'approved' && gp.kind === 'weight' && w > 0 && gp.startWeight > 0 && gp.targetWeight > 0) || gp.startWeight === gp.targetWeight) return null;
+    return Math.round(Math.max(0, Math.min(1, (gp.startWeight - w) / (gp.startWeight - gp.targetWeight))) * 100);
   };
+  App.goalPct = goalPct;
+  const weightDelta = (r) => {
+    const gp = r.c.goalPlan; const w = r.ctx.weight;
+    const ser = NT.weightSeries(r.ctx.track.measures);
+    const base = gp && gp.status === 'approved' && gp.startWeight > 0 ? gp.startWeight : (ser.length > 1 ? ser[0].weight : null);
+    return base != null && w > 0 ? w - base : null;
+  };
+  const clientRow = (r) => {
+    const c = r.c; const pct = goalPct(r); const d = weightDelta(r);
+    const kc = r.ctx.needs.ok ? r.ctx.needs.rest.kcal : null;
+    return '<tr class="click" data-act="client-open" data-id="' + c.id + '" style="' + App.avStyle(c.id) + '"><td><button class="who" type="button" data-act="client-open" data-id="' + c.id + '" style="all:unset;cursor:pointer;display:flex;align-items:center;gap:10px;min-width:0"><span class="avatar">' + esc(App.initials(c.name)) + '</span><span style="display:flex;flex-direction:column;min-width:0"><b>' + esc(c.name) + '</b>' +
+      '<small class="muted" style="font-size:12px">' + esc(NT.GOAL_LABEL[c.goal] || 'Bez cíle') + '</small></span></button></td>' +
+      '<td class="hide-s num"><b>' + (kc ? fmt(kc) : '–') + '</b></td>' +
+      '<td><div class="prog-bar"><span class="tr"><i style="width:' + (pct || 0) + '%"></i></span><em>' + (pct == null ? '–' : pct + ' %') + '</em></div></td>' +
+      '<td class="hide-s num" style="text-align:right"><span class="' + (d != null && ((c.goal === 'loss' && d < 0) || (c.goal === 'gain' && d > 0)) ? 'dpos' : 'dneg') + '">' + (d == null ? '–' : (d > 0 ? '+' : d < 0 ? '−' : '') + fmt(Math.abs(d), 1) + ' kg') + '</span></td></tr>';
+  };
+  // graf energie po dnech
+  const MAC = { p: ['Bílkoviny', 'var(--c-protein)', '#7DB7FF'], f: ['Tuky', 'var(--c-fat)', '#FFB27A'], c: ['Sacharidy', 'var(--c-carbs)', '#6EE7B7'] };
+  const energySection = (rows) => {
+    const withPlan = rows.filter((r) => r.ctx.hasPlan);
+    if (!withPlan.length) return '';
+    const sel = withPlan.find((r) => r.c.id === S.ui.dashClient) || withPlan[0];
+    const c = sel.c; const plan = sel.ctx.plans.find((p) => (p.days || []).some((d) => (d.meals || []).some((m) => (m.items || []).length))) || sel.ctx.plans[0];
+    const cx = App.ctx(); const needs = sel.ctx.needs;
+    const days = (plan.days || []).slice(0, 7).map((d, i) => {
+      const t = NT.dayTotals(d, cx).total;
+      const tg = needs.ok ? (d.dayType === 'training' && needs.training ? needs.training.kcal : needs.rest.kcal) : null;
+      return { i, name: String(d.name || '').slice(0, 3), full: d.name || ('Den ' + (i + 1)), kcal: t.kcal, p: t.protein, f: t.fat, c: t.carbs, tg };
+    });
+    const goalK = needs.ok ? Math.round(needs.rest.kcal) : null;
+    const maxV = Math.max.apply(null, days.map((d) => d.kcal).concat(days.map((d) => d.tg || 0), [600]));
+    const axis = Math.ceil(maxV * 1.05 / 600) * 600;
+    const mode = S.ui.dashChart === 'goal' ? 'goal' : 'macro';
+    const bars = days.map((d) => {
+      const e = (d.p * 4 + d.f * 9 + d.c * 4) || 1;
+      const ht = Math.min(100, d.kcal / axis * 100);
+      let inner;
+      if (mode === 'goal') {
+        const dev = d.tg ? Math.abs(1 - d.kcal / d.tg) : null;
+        const col = dev == null ? 'var(--ink-3)' : dev <= 0.07 ? '#10B981' : dev <= 0.15 ? '#F5B300' : '#EF4444';
+        inner = '<i style="height:100%;background:' + col + '"></i>';
+      } else {
+        inner = '<i style="height:' + (d.c * 4 / e * 100) + '%;background:var(--c-carbs)"></i><i style="height:' + (d.f * 9 / e * 100) + '%;background:var(--c-fat)"></i><i style="height:' + (d.p * 4 / e * 100) + '%;background:var(--c-protein)"></i>';
+      }
+      const tip = '<span class="tip"><b style="font-size:13px">' + esc(d.full) + ' · ' + fmt(d.kcal) + ' kcal</b>' + (d.tg ? '<span>cíl ' + fmt(d.tg) + ' kcal</span>' : '') +
+        '<span style="color:' + MAC.p[2] + '">Bílkoviny ' + fmt(d.p) + ' g</span><span style="color:' + MAC.f[2] + '">Tuky ' + fmt(d.f) + ' g</span><span style="color:' + MAC.c[2] + '">Sacharidy ' + fmt(d.c) + ' g</span></span>';
+      return '<button class="ebar" type="button" data-act="dash-day" data-plan="' + plan.id + '" data-i="' + d.i + '" aria-label="' + esc(d.full) + ', ' + fmt(d.kcal) + ' kcal"><span class="stk" style="height:' + (d.kcal ? Math.max(ht, 2) : 0) + '%">' + inner + '</span>' + tip + '<span class="dl">' + esc(d.name) + '</span></button>';
+    }).join('');
+    const ticks = [4, 3, 2, 1, 0].map((k) => '<span>' + fmt(axis / 4 * k) + '</span>').join('');
+    const goalLine = goalK ? '<div class="goal" style="bottom:' + Math.min(100, goalK / axis * 100) + '%"></div><div class="goal-l" style="bottom:calc(' + Math.min(100, goalK / axis * 100) + '% + 6px)">cíl</div>' : '';
+    const opts = withPlan.map((r) => '<option value="' + r.c.id + '"' + (r.c.id === c.id ? ' selected' : '') + '>' + esc(r.c.name) + '</option>').join('');
+    // donut: průměr dnů s jídlem
+    const avg = NT.planAverage(plan, cx); const a = avg.avg;
+    const ek = { p: a.protein * 4, f: a.fat * 9, c: a.carbs * 4 }; const eAll = (ek.p + ek.f + ek.c) || 1;
+    const R = 80; const CIRC = 2 * Math.PI * R; let off = 0;
+    const segs = ['p', 'f', 'c'].map((k) => { const len = ek[k] / eAll * CIRC; const el = '<circle cx="100" cy="100" r="' + R + '" stroke="' + (k === 'p' ? '#3B82F6' : k === 'f' ? '#FF8A4C' : '#10B981') + '" stroke-width="26" stroke-dasharray="' + Math.max(0, len - 3).toFixed(1) + ' ' + CIRC.toFixed(1) + '" stroke-dashoffset="' + (-off).toFixed(1) + '"><title>' + MAC[k][0] + ' ' + Math.round(ek[k] / eAll * 100) + ' %</title></circle>'; off += len; return el; }).join('');
+    const legend = ['p', 'f', 'c'].map((k) => '<div class="dl-row"><span class="sq" style="background:' + (k === 'p' ? '#3B82F6' : k === 'f' ? '#FF8A4C' : '#10B981') + '"></span><span class="nm">' + MAC[k][0] + '</span><b>' + fmt({ p: a.protein, f: a.fat, c: a.carbs }[k]) + ' g</b><span class="pc" style="color:' + MAC[k][2] + '">' + Math.round(ek[k] / eAll * 100) + ' %</span></div>').join('');
+    return '<div class="grid" style="grid-template-columns:minmax(0,1.75fr) minmax(0,1fr);gap:16px;margin-bottom:22px" id="dash-energy"><div class="card chart-card"><div class="cc-h"><div><h2>Energie v jídelníčku po dnech</h2><span class="muted sm">' + esc(c.name) + ' · ' + esc(plan.name || 'Jídelníček') + (goalK ? ' · cíl ' + fmt(goalK) + ' kcal' : '') + '</span></div>' +
+      (withPlan.length > 1 ? '<select data-ch="dash-client" aria-label="Klient" style="width:auto;min-height:34px;border-radius:12px">' + opts + '</select>' : '') +
+      '<div class="seg" role="group" aria-label="Zobrazení grafu"><button type="button" data-act="dash-chart" data-m="macro" aria-pressed="' + (mode === 'macro') + '">Makroživiny</button><button type="button" data-act="dash-chart" data-m="goal" aria-pressed="' + (mode === 'goal') + '">Plnění cíle</button></div></div>' +
+      '<div class="ebars" style="--n:' + days.length + '"><div class="yax">' + ticks + '</div><div class="plot"><div class="cols" style="--n:' + days.length + '">' + goalLine + bars + '</div></div></div>' +
+      '<div class="chart-legend">' + (mode === 'macro' ? '<span class="k"><span class="sq" style="background:var(--c-protein)"></span>Bílkoviny</span><span class="k"><span class="sq" style="background:var(--c-fat)"></span>Tuky</span><span class="k"><span class="sq" style="background:var(--c-carbs)"></span>Sacharidy</span>' :
+        '<span class="k"><span class="sq" style="background:#10B981"></span>v cíli (±7 %)</span><span class="k"><span class="sq" style="background:#F5B300"></span>mírně mimo</span><span class="k"><span class="sq" style="background:#EF4444"></span>mimo cíl</span>') + '<span class="lf">Kliknutím na den otevřeš editor</span></div></div>' +
+      '<div class="dark-card"><div><h2>Skladba energie</h2><span class="sub">Průměr dnů s jídlem, najeď na segment</span></div>' + (avg.count ? '<div class="donut"><svg viewBox="0 0 200 200" role="img" aria-label="Skladba energie: bílkoviny ' + Math.round(ek.p / eAll * 100) + ' %, tuky ' + Math.round(ek.f / eAll * 100) + ' %, sacharidy ' + Math.round(ek.c / eAll * 100) + ' %">' + segs + '</svg><div class="mid"><b>' + fmt(a.kcal) + '</b><span>kcal / den</span></div></div><div style="display:flex;flex-direction:column;gap:8px">' + legend + '</div>' : '<p class="sub">Jídelníček zatím nemá žádná jídla.</p>') + '</div></div>';
+  };
+  Object.assign(App.A, {
+    'dash-chart': (t) => { S.ui.dashChart = t.dataset.m; App.rerender(); },
+    'dash-day': (t) => { S.ui.dayIdx = +t.dataset.i; App.go('plan', { id: t.dataset.plan, tab: 'editor' }); }
+  });
+  App.CH['dash-client'] = (t) => { S.ui.dashClient = t.value; App.rerender(); };
   const libraryCard = (rows) => {
     const foods = S.cat.foods; const own = foods.filter((f) => f.origin !== 'nutridb' && f.origin !== 'curated' && !App.isBaseFood(f)).length;
     const nd = foods.filter((f) => f.origin === 'nutridb').length;

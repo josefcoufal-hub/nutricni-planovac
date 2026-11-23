@@ -188,9 +188,18 @@
     const E = App.dayEval(plan, client, day);
     return new Map(NT.mealRecommendations(day.meals, E.target ? { kcal: E.target.kcal } : null).map((r) => [r.id, r]));
   };
+  const MEAL_IC = (name) => {
+    const n = NT.norm(name || '');
+    if (/snid/.test(n)) return ['l-sunrise', '#FFF0D6', '#C27803'];
+    if (/svac|dezert|napoj/.test(n)) return ['l-apple', '#E4F8EE', '#0B7A4F'];
+    if (/obed/.test(n)) return ['l-soup', '#E3EDFF', '#1D4FB8'];
+    if (/vecer|druha/.test(n)) return ['moon', '#EEE9FF', '#5B3CC4'];
+    return ['clock', '#EEF3F1', '#3F5254'];
+  };
   const mealHtml = function (plan, client, day, meal, rec) {
     const mt = NT.mealTotals(meal, App.ctx()).total;
-    return '<section class="meal" data-meal="' + meal.id + '"><div class="meal-h"><input class="mname" type="text" aria-label="Název jídla" data-in="meal-name" data-m="' + meal.id + '" data-fid="mn-' + meal.id + '" value="' + esc(meal.name) + '">' +
+    const mi = MEAL_IC(meal.name);
+    return '<section class="meal" data-meal="' + meal.id + '"><div class="meal-h"><span class="meal-ic" style="background:' + mi[1] + ';color:' + mi[2] + '" aria-hidden="true">' + ic(mi[0]) + '</span><input class="mname" type="text" aria-label="Název jídla" data-in="meal-name" data-m="' + meal.id + '" data-fid="mn-' + meal.id + '" value="' + esc(meal.name) + '">' +
       '<input class="mtime" type="time" aria-label="Čas jídla" data-ch="meal-time" data-m="' + meal.id + '" value="' + esc(meal.time || '') + '"><span class="meal-sum" data-k="ms-' + meal.id + '">' + (meal.items.length ? fmt(mt.kcal) + ' kcal · B ' + fmt(mt.protein) + ' · T ' + fmt(mt.fat) + ' · S ' + fmt(mt.carbs) : 'prázdné') + '</span><span class="mrec-w" data-k="mr-' + meal.id + '">' + mealRecHtml(mt.kcal, rec) + '</span><span class="sp"></span>' +
       '<button class="btn btn-ghost btn-icon btn-sm" type="button" title="Uložit jídlo jako šablonu" aria-label="Uložit jídlo jako šablonu" data-act="meal-tpl" data-m="' + meal.id + '">' + ic('layers', 'ico-sm') + '</button>' +
       '<button class="btn btn-ghost btn-icon btn-sm" type="button" title="Duplikovat jídlo" aria-label="Duplikovat jídlo" data-act="meal-dup" data-m="' + meal.id + '">' + ic('copy', 'ico-sm') + '</button>' +
